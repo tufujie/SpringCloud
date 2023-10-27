@@ -1,0 +1,12 @@
+### 保存数据
+POST {{url}}/payment/insert
+Content-Type: application/json
+
+{
+  "serial": "No.4"
+}
+
+### 获取数据
+GET {{url}}/payment/get/5
+Accept: application/json
+

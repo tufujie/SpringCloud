@@ -1,0 +1,10 @@
+### 保存数据
+POST {{url}}/consumer/payment/insert
+Content-Type: application/x-www-form-urlencoded
+
+serial=No.4
+
+### 获取数据
+GET {{url}}/consumer/payment/get/5
+Accept: application/json
+
