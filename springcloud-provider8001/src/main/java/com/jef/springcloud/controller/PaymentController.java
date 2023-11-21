@@ -3,15 +3,12 @@ package com.jef.springcloud.controller;
 import com.jef.springcloud.entities.CommonResult;
 import com.jef.springcloud.entities.Payment;
 import com.jef.springcloud.service.PaymentService;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -24,6 +21,12 @@ public class PaymentController {
     @Value("${server.port}")
     private String serverPort;
 
+    /**
+     * 增
+     *
+     * @param payment
+     * @return
+     */
     @PostMapping("/payment/insert")
     public CommonResult insert(@RequestBody Payment payment) {
         int result = paymentService.insert(payment);
@@ -47,5 +50,10 @@ public class PaymentController {
             return new CommonResult(500, "查询失败");
         }
 
+    }
+
+    @GetMapping("/payment/lb")
+    public Integer getPaymentById(HttpServletRequest request) {
+        return request.getServerPort();
     }
 }
