@@ -16,7 +16,9 @@ spring:
           # lb 属于GateWay 的关键字，代表是动态uri，即代表使用的是服务注册中心的微服务名，它默认开启使用负载均衡机制
           uri: lb://cloud-payment-service
           predicates:
-            - Path=/payment/get/**  # 断言，路径相匹配的进行路由
+            - Path=/api/payment/get/**  # 断言，路径相匹配的进行路由，**可以多级路径，*单一路径
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment} # 将跳转路径中包含的/api替换成空，访问http://localhost:9001/api/payment/get/1就是访问http://localhost:8001/payment/get/1
 
         - id: payment_routh2
           #          uri: http://localhost:8001
