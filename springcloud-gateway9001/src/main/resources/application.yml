@@ -14,11 +14,17 @@ spring:
           # uri+predicates  要访问这个路径得先经过9001处理
           #          uri: http://localhost:8001  # 匹配成功后提供服务的路由地址
           # lb 属于GateWay 的关键字，代表是动态uri，即代表使用的是服务注册中心的微服务名，它默认开启使用负载均衡机制
+          # 可以有多个微服务，例如：cloud-order-service，cloud-goods-service，通过一个网关层
           uri: lb://cloud-payment-service
           predicates:
             - Path=/api/payment/get/**  # 断言，路径相匹配的进行路由，**可以多级路径，*单一路径
           filters:
-            - RewritePath=/api/(?<segment>.*),/$\{segment} # 将跳转路径中包含的/api替换成空，访问http://localhost:9001/api/payment/get/1就是访问http://localhost:8001/payment/get/1
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+          # 将跳转路径中包含的/api替换成空
+          # 访问http://ip1:9001/api/payment/get/1就是访问http://ip2:8001/payment/get/1
+          # 拓展：访问http://ip1:9001/api/order/get/1就是访问http://ip3:8001/order/get/1
+          # 一般来说：线上都是分布式部署+集群，以实现高性能，所以都是每个服务器部署一个服务，即多个服务间ip不同，但是端口相同，通过网关统一转发到各个服务的对应接口
+          # 本地开发是单机模式，所以只能是多个服务ip相同，但是端口不同来进行开发测试
 
         - id: payment_routh2
           #          uri: http://localhost:8001

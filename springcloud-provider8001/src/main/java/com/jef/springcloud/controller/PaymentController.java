@@ -45,6 +45,7 @@ public class PaymentController {
 
         log.info("====== 查询结果：" + result);
         if (result != null) {
+            // 可以隐藏服务端口，防止恶意攻击
             return new CommonResult(200, "查询成功，服务端口：" + serverPort, result);
         }else {
             return new CommonResult(500, "查询失败");
